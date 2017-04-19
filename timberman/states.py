@@ -17,9 +17,9 @@ class StartState(State):
                 self.screen[1000, 540] == Color.BLACK and \
                 self.screen[988, 488] == Color.BLACK and \
                 self.screen[931, 501] == Color.WHITE:
-            if sum(self.screen[310, 800]) < 10 and \
-                    sum(self.screen[705, 800]) < 10 and \
-                    sum(self.screen[1495, 800]) < 10:
+            if sum(self.screen[310, 800]) < 30 and \
+                    sum(self.screen[705, 800]) < 30 and \
+                    sum(self.screen[1495, 800]) < 30:
                 self.game.enter(FourMPGameState)
             else:
                 self.game.enter(TwoMPGameState)
@@ -48,13 +48,13 @@ class GameState(State):
         if self.last_move == self.MOVE_LEFT:
             # we are on the left side
             line = self.read_line(self.LX)
-            if sum(line):
+            if any(line):
                 # obstacle incoming, move right
                 move = self.MOVE_RIGHT
         else:
             # we are on the right side
             line = self.read_line(self.RX)
-            if sum(line):
+            if any(line):
                 # obstacle incoming, move left
                 move = self.MOVE_LEFT
 
@@ -93,8 +93,12 @@ class SinglePlayerGameState(GameState):
 
 class TwoMPGameState(SinglePlayerGameState):
     LX, RX = 505, 715
+    FY, TY = 455, 660
 
 
 class FourMPGameState(SinglePlayerGameState):
-    LX, RX = 309, 425
-    FY, TY = 700, 750
+    LX, RX = 308, 426
+    FY, TY = 650, 750
+
+    def has_failed(self):
+        return self.screen[0.5, 0.676] == Color.RED
