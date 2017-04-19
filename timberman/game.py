@@ -16,6 +16,7 @@ class Timberman(object):
             5 mps -> 327
             6 mps -> 627
             8 mps -> 3552
+           10 mps -> 6791
         """
         self.screen = ScreenBuffer()
         self.keyboard = Keyboard()
